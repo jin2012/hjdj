@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Wxgzh implements Serializable {
     @Id
     private Integer id;
-    private int appid;
+    private String appid;
     private String secret;
     // 状态：0:未使用，1:使用
     private int state;
@@ -28,11 +28,11 @@ public class Wxgzh implements Serializable {
         this.id = id;
     }
 
-    public int getAppid() {
+    public String getAppid() {
         return appid;
     }
 
-    public void setAppid(int appid) {
+    public void setAppid(String appid) {
         this.appid = appid;
     }
 

@@ -15,7 +15,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3366/payment?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/hjdj_wxgzh?serverTimezone=UTC&useSSL=false
     username: root
     password: 123
 
