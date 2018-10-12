@@ -55,6 +55,7 @@ public class TestController {
             result = "P4_CurError";
             return "redirect:" + P8_Url + "?result=" + result;
         }
+
         // 商品名称
         String P5_Pid = request.getParameter("p5_Pid");
         // 商品种类
