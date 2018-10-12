@@ -134,7 +134,7 @@ public class TestController {
 
         // »ñÈ¡codeÂ·¾¶
         String codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize" +
-                "?appid=wx21d7f581d2d3d51e" +
+                "?appid=wx37cb4b56015f452f" +
                 "&redirect_uri=http://topay.feigela.com/payment-pay/code" +
                 "&response_type=code" +
                 "&scope=snsapi_base" +
