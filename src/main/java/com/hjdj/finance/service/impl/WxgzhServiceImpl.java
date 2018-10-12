@@ -25,14 +25,13 @@ public class WxgzhServiceImpl implements WxgzhService {
     }
 
     @Override
-    public void addWxgzhRedis(Integer id, Wxgzh wxgzh) {
-        // redisTemplate.opsForHash().put("wxgzhs", id, wxgzh);
-        redisTemplate.opsForValue().set(id, wxgzh);
+    public void addWxgzhRedis(List<Wxgzh> wxgzh) {
+        redisTemplate.opsForValue().set("wxgzhs", wxgzh);
     }
 
     @Override
-    public Object queryWxgzhRedis(int i) {
-        return redisTemplate.opsForValue().get(i);
+    public List<Wxgzh> queryWxgzhsRedis() {
+        return (List<Wxgzh>)redisTemplate.opsForValue().get("wxgzhs");
     }
 
 }

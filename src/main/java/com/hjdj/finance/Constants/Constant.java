@@ -10,7 +10,4 @@ public class Constant {
     // ÂÖÑ­´ÎÊı
     public static final int LX_VAL = 5;
 
-    // ÂÖÑ­Ê×ĞòºÅ
-    public static final int LX_INDEX = 5;
-
 }

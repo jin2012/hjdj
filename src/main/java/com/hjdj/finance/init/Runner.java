@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import javax.management.Query;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 初始化运行
@@ -15,11 +19,7 @@ import java.util.List;
  */
 @Component
 public class Runner implements CommandLineRunner {
-    // 轮循次数
-    public static volatile int val = 1;
 
-    // 轮循首序号
-    public static volatile int indexLx = 1;
 
     @Autowired
     private WxgzhService wxgzhService;
@@ -27,9 +27,6 @@ public class Runner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         List<Wxgzh> wxgzhs = wxgzhService.queryWxgzh();
-        for(int i = 0; i < wxgzhs.size(); i ++){
-            wxgzhService.addWxgzhRedis(wxgzhs.get(i).getId(), wxgzhs.get(i));
-        }
-
+        wxgzhService.addWxgzhRedis(wxgzhs);
     }
 }

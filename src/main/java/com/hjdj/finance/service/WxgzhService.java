@@ -2,12 +2,14 @@ package com.hjdj.finance.service;
 
 import com.hjdj.finance.beans.Wxgzh;
 
+import java.awt.geom.QuadCurve2D;
 import java.util.List;
+import java.util.Queue;
 
 public interface WxgzhService {
     List<Wxgzh> queryWxgzh();
 
-    void addWxgzhRedis(Integer id, Wxgzh wxgzh);
+    void addWxgzhRedis(List<Wxgzh> wxgzh);
 
-    Object queryWxgzhRedis(int i);
+    List<Wxgzh> queryWxgzhsRedis();
 }

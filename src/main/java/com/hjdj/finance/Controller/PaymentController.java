@@ -12,11 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.management.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 @Controller
 public class PaymentController {
+
+
 
     // 返回结果
     private String result;
@@ -132,12 +139,12 @@ public class PaymentController {
         }
         paymentService.saveOrderRedis(order);
 
-        Wxgzh wxgzhInfo = (Wxgzh) wxgzhService.queryWxgzhRedis(Runner.indexLx);
-
+        List<Wxgzh> wxgzhs = wxgzhService.queryWxgzhsRedis();
+        Wxgzh wxgzh = wxgzhs.get(0);
         // 获取code路径
         String codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize" +
                 // "?appid=wx979307632cb303ca" +
-                "?appid=" + wxgzhInfo.getAppid() +
+                "?appid=" + wxgzh.getId() +
                 "&redirect_uri=http://topay.feigela.com/payment-pay/code" +
                 "&response_type=code" +
                 "&scope=snsapi_base" +
@@ -155,8 +162,8 @@ public class PaymentController {
      * @return
      */
     @RequestMapping("/code")
-    public String obtainCode(HttpServletRequest request, HttpServletResponse response) {
-        String code = request.getParameter("code");
+    public String obtainCode (HttpServletRequest request, HttpServletResponse response) {
+        /*String code = request.getParameter("code");
         if (code == null || "".equals(code)) {
             return "";
         }
@@ -165,12 +172,13 @@ public class PaymentController {
             return "";
         }
 
-        Wxgzh wxgzhInfo = (Wxgzh) wxgzhService.queryWxgzhRedis(Runner.indexLx);
+        List<Wxgzh> wxgzhs = wxgzhService.queryWxgzhsRedis();
+        Wxgzh wxgzh = wxgzhs.get(0);
 
         // 获取openid路径
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
-        String param = "appid=" + wxgzhInfo.getAppid() +
-                "&secret=" + wxgzhInfo.getSecret() +
+        String param = "appid=" + wxgzh.getAppid() +
+                "&secret=" + wxgzh.getSecret() +
                 "&code=" + code +
                 "&grant_type=authorization_code";
         String jsonStr = HttpUtil.sendGet(url, param);
@@ -205,24 +213,29 @@ public class PaymentController {
             sbd.append("&pd_FrpId=" + order.getPd_FrpId());
             sbd.append("&pr_NeedResponse=" + order.getPr_NeedResponse());
             sbd.append("&hmac=" + order.getHmac());
-            sbd.append("&pr_Openid=" + openid);
+            sbd.append("&pr_Openid=" + openid);*/
 
-            // Wxgzh wxgzhInfo = (Wxgzh) wxgzhService.queryWxgzhRedis(Runner.indexLx);
-            // System.out.println(wxgzhInfo.getAppid());
-            // 轮循
-            if (Runner.val < Constant.LX_VAL) {
-                Runner.val++;
-            } else {
-                Runner.val = 0;
-                if (Runner.indexLx < Constant.LX_INDEX) {
-                    Runner.indexLx++;
-                } else {
-                    Runner.indexLx = 1;
-                }
-            }
-            return "redirect:" + sbd;
-        }
+            lx();
+           /* return "redirect:" + sbd;
+        }*/
         return "OrderOvertime";
+    }
+
+    // 轮循次数
+    public static int val = 1;
+
+    public synchronized void lx (){
+        if (val < Constant.LX_VAL) {
+            val++;
+        } else {
+            val = 1;
+            List<Wxgzh> wxgzhs = wxgzhService.queryWxgzhsRedis();
+            wxgzhs.add(wxgzhs.get(0));
+            wxgzhs.remove(0);
+            List<Wxgzh> newWxgzhs = new LinkedList<>();
+            newWxgzhs.addAll(wxgzhs);
+            wxgzhService.addWxgzhRedis(newWxgzhs);
+        }
     }
 
 }
