@@ -1,8 +1,8 @@
-package com.hjdj.finance.service.impl;
+package com.hjdj.finance.wxgzh.service.impl;
 
-import com.hjdj.finance.beans.Wxgzh;
-import com.hjdj.finance.repository.WxgzhRepository;
-import com.hjdj.finance.service.WxgzhService;
+import com.hjdj.finance.wxgzh.beans.Wxgzh;
+import com.hjdj.finance.wxgzh.repository.WxgzhRepository;
+import com.hjdj.finance.wxgzh.service.WxgzhService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

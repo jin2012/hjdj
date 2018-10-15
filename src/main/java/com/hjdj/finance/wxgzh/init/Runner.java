@@ -1,16 +1,12 @@
-package com.hjdj.finance.init;
+package com.hjdj.finance.wxgzh.init;
 
-import com.hjdj.finance.beans.Wxgzh;
-import com.hjdj.finance.service.WxgzhService;
+import com.hjdj.finance.wxgzh.beans.Wxgzh;
+import com.hjdj.finance.wxgzh.service.WxgzhService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.management.Query;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 初始化运行

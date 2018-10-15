@@ -1,7 +1,7 @@
-package com.hjdj.finance.service.impl;
+package com.hjdj.finance.wxgzh.service.impl;
 
-import com.hjdj.finance.beans.Order;
-import com.hjdj.finance.service.PaymentService;
+import com.hjdj.finance.wxgzh.beans.Order;
+import com.hjdj.finance.wxgzh.service.PaymentService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 

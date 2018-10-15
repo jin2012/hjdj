@@ -1,4 +1,4 @@
-package com.hjdj.finance.Constants;
+package com.hjdj.finance.wxgzh.Constants;
 
 /**
  * ³£Á¿

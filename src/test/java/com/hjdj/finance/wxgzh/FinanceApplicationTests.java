@@ -1,4 +1,4 @@
-package com.hjdj.finance;
+package com.hjdj.finance.wxgzh;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

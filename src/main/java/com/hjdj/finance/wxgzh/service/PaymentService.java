@@ -1,6 +1,6 @@
-package com.hjdj.finance.service;
+package com.hjdj.finance.wxgzh.service;
 
-import com.hjdj.finance.beans.Order;
+import com.hjdj.finance.wxgzh.beans.Order;
 
 public interface PaymentService {
 

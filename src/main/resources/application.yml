@@ -15,11 +15,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hjdj_wxgzh?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3366/hjdj_wxgzh?serverTimezone=UTC&useSSL=false
     username: root
     password: 123
-
-wxgzh:
-  appid: wx21d7f581d2d3d51e
-  secret: a948ac0b0d7cffb867c3a5eb74662636
-

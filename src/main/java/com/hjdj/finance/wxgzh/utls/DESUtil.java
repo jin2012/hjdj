@@ -1,4 +1,4 @@
-package com.hjdj.finance.utls;
+package com.hjdj.finance.wxgzh.utls;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

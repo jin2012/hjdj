@@ -1,4 +1,4 @@
-package com.hjdj.finance.beans;
+package com.hjdj.finance.wxgzh.beans;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.hjdj.finance;
+package com.hjdj.finance.wxgzh;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

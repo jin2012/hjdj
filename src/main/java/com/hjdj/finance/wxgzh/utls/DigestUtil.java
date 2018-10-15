@@ -1,4 +1,4 @@
-package com.hjdj.finance.utls;
+package com.hjdj.finance.wxgzh.utls;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

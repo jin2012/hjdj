@@ -1,4 +1,4 @@
-package com.hjdj.finance.interceptor;
+package com.hjdj.finance.wxgzh.interceptor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
