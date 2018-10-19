@@ -4,6 +4,7 @@ import com.hjdj.pay.beans.Order;
 import com.hjdj.pay.service.PaymentService;
 import com.hjdj.pay.utls.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,7 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class TestController {
 
+    // 返回结果
     private String result;
+
+    @Value("${wxgzh.appid}")
+    private String appid;
+
+    @Value("${wxgzh.secret}")
+    private String secret;
 
     @Autowired
     private PaymentService paymentService;
@@ -134,7 +142,9 @@ public class TestController {
 
         // 获取code路径
         String codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize" +
-                "?appid=wx21d7f581d2d3d51e" +
+        //        "?appid=wx21d7f581d2d3d51e" +
+        //        "?appid=wx37cb4b56015f452f" +
+                "?appid=" + appid +
                 "&redirect_uri=http://topay.feigela.com/payment-pay/code" +
                 "&response_type=code" +
                 "&scope=snsapi_base" +

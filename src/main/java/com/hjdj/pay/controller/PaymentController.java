@@ -6,6 +6,7 @@ import com.hjdj.pay.utls.DESUtil;
 import com.hjdj.pay.utls.HttpUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,14 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 @Controller
 public class PaymentController {
 
+    // ·µ»Ø½á¹û
     private String result;
+
+    @Value("${wxgzh.appid}")
+    private String appid;
+
+    @Value("${wxgzh.secret}")
+    private String secret;
 
     @Autowired
     private PaymentService paymentService;
@@ -108,8 +116,9 @@ public class PaymentController {
         //        "?appid=wx979307632cb303ca" +
         //        "?appid=wx3c5d08c639c80aad" +
         //        "?appid=wx1657d33073ed7ad5" +
-                "?appid=wx21d7f581d2d3d51e" +
+        //        "?appid=wx21d7f581d2d3d51e" +
         //        "?appid=wx37cb4b56015f452f" +
+                "?appid=" + appid +
                 "&redirect_uri=http://topay.feigela.com/payment-pay/code" +
                 "&response_type=code" +
                 "&scope=snsapi_base" +
@@ -232,8 +241,9 @@ public class PaymentController {
         //        "?appid=wx979307632cb303ca" +
         //        "?appid=wx3c5d08c639c80aad" +
         //        "?appid=wx1657d33073ed7ad5" +
-                "?appid=wx21d7f581d2d3d51e" +
+        //        "?appid=wx21d7f581d2d3d51e" +
         //        "?appid=wx37cb4b56015f452f" +
+                "?appid=" + appid +
                 "&redirect_uri=http://topay.feigela.com/payment-pay/code" +
                 "&response_type=code" +
                 "&scope=snsapi_base" +
@@ -270,8 +280,9 @@ public class PaymentController {
         // String param = "appid=wx979307632cb303ca" +
         // String param = "appid=wx3c5d08c639c80aad" +
         // String param = "appid=wx1657d33073ed7ad5" +
-         String param = "appid=wx21d7f581d2d3d51e" +
+        // String param = "appid=wx21d7f581d2d3d51e" +
         // String param = "appid=wx37cb4b56015f452f" +
+         String param = "appid=" + appid +
         //        "&secret=319faaef993ff6071b537854819f9964" +
         //        "&secret=06aa43c5f88ab49953ef96f93e953f76" +
         //        "&secret=9967f335887be1384913327073abf686" +
@@ -279,8 +290,9 @@ public class PaymentController {
         //        "&secret=cbc86755a898155738cf91c09c65b3fe" +
         //        "&secret=6486392713f261ad10d41b9a5fa561c2" +
         //        "&secret=19daf37d7162c33ba54bfed053c32ed0" +
-                "&secret=a948ac0b0d7cffb867c3a5eb74662636" +
+        //        "&secret=a948ac0b0d7cffb867c3a5eb74662636" +
         //        "&secret=970df66e92e5d00fdc98ffbd1632b10b" +
+                "&secret=" + secret +
                 "&code=" + code +
                 "&grant_type=authorization_code";
         String jsonStr = HttpUtil.sendGet(url, param);
