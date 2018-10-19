@@ -9,4 +9,6 @@ public interface PaymentService {
     Order query(String p2_Order);
 
     boolean isRedisExist(String p2_order);
+
+    void deleteOrderRedis(String order);
 }

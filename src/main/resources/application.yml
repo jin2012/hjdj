@@ -11,5 +11,26 @@ spring:
       force: true
       charset: GBK
       enabled: true
+  devtools:
+    restart:
+      enabled: true
 
-
+wxgzh:
+#  appid: wxbff989fe6461516c
+#  secret: 319faaef993ff6071b537854819f9964
+#  appid: wx98b22e6cdd9429db
+#  secret: 06aa43c5f88ab49953ef96f93e953f76
+#  appid: wx352fe6a15b754354
+#  secret: 9967f335887be1384913327073abf686
+#  appid: wx3ac0e3526ab0e2fb
+#  secret: d98ba887416da5804a45ca74850dbd2d
+#  appid: wx979307632cb303ca
+#  secret: cbc86755a898155738cf91c09c65b3fe
+#  appid: wx3c5d08c639c80aad
+#  secret: 6486392713f261ad10d41b9a5fa561c2
+#  appid: wx1657d33073ed7ad5
+#  secret: 19daf37d7162c33ba54bfed053c32ed0
+#  appid: wx21d7f581d2d3d51e
+#  secret: a948ac0b0d7cffb867c3a5eb74662636
+  appid: wx37cb4b56015f452f
+  secret: 970df66e92e5d00fdc98ffbd1632b10b

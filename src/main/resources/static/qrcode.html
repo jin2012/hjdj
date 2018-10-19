@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+    <style>
+        body{
+            text-align: center;
+            background-color: #efeff4;
+            border-radius: 20px;
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            /* position: absolute; */
+            top: 0;
+            left: 0;
+            right: 0;
+            /* bottom: 0; */
+        }
+        header {
+            width: 100%;
+            height: 3.75rem;
+            line-height: 3.75rem;
+            text-align: center;
+            background: #fff;
+            /* vertical-align: middle; */
+
+        }
+        header img {
+            width: 4rem;
+            height: 2rem;
+            margin-right: 1.25rem;
+            /* display: inline-block; */
+            vertical-align: middle;
+        }
+        header span {
+            font-size: 1.5rem;
+            vertical-align: middle;
+        }
+        main {
+            width: 50%;
+            margin: 2.875rem auto;
+            background: #fff;
+            border: 1px solid #ccc;
+            margin-top: 19rem;
+        }
+        main h2 {
+            height: 3rem;
+        }
+        main .money {
+            text-align: center;
+            font-size: 2.6rem;
+            color: red;
+        }
+        main img {
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        main .footer {
+            height: 3.125rem;
+            border-top: 1px solid #ccc;
+            text-align: center;
+        }
+        .icon {
+            width: 2.875rem;
+            height: 2.875rem;
+            display: inline-block;
+            margin:  0.5rem 0px;
+            float: left;
+            margin-left: 45%;
+            transform: translateX(-50%);
+        }
+        .foot {
+            display: block;
+            content: '';
+            height: 6rem;
+            vertical-align: middle;
+            clear: both;
+            overflow: hidden;
+            /* visibility: hidden;  */
+            margin-bottom: 1.25rem;
+        }
+        .list {
+            width: 12.5rem;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style-type: none;
+            line-height: 1.875rem;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+<div id="qrcode">
+    <div class="content">
+        <main>
+            <img src="data:image/png;base64,${qrcode}"/>
+            <div class="foot">
+                <img src="data:img/soa.png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAFDElEQVRoQ+1abYhUVRh+nnvX3TU1P7LQQLDaWnNm7szcS1JUkBnojz4gSNNI2VJ3JikM0vBPSoRZFCFpcyf8oKJQwySE/JElGIE/mhnvrJN9CGqkqdVm2sp+zNw37nzt6K67w53dWYu5/+ae932e533PmXPOPeclrvLcaQZurwcfEfABCJoITgcxumAuwEWB/U5bKLH2ahjlvNei+koK1gKcUGJ/SYBfKHIUlAMQ+zMrbJ3qD49XvrwjakxutPE6iRYA6mAi2JCZeLjl8PnB7PptF1Az9TRJZSB/ATpB2XCp68KGYy8c6yq1vSwA72bvNFWp/xpkUzmCBHIweSY+G+tgl2Pfn40/ov9cLh8glqjph5PLkr8WsIoBNG8N3tzQrRwiMa2USIA2UHYLaImdKWZaUdQLydZY3K3wgt+MTTNuqFMbfaU4CpVxAL0U8YCcC2BysV3kVKau2ziy7MhZ5102AO1DbQw6RjnivSVj/DhgL0uGEl9VKrIS/1ujxvixNjaSWNKLI1Z6Utes1PxUdy4A01hDYH2vePkuU9c1N7U01V4J+VD6+iP6GyBXl2jcmAzFV9KIGtelBacBjHcaRfCj0pi52/UfcyhVX4GlmcYHBBZndTpKJT2F3og+XyV3FiOz5Z7kc/FDw6jDNbRni2eS2tNwkuTYbBCU1dRM4xMCC3OoYlmheMA1QxUc/aa+A+CCPNWX9JtGAkBWtAjeToZjL1VBh2sKX1RfoQg35RN+nv6Ifg7kjbkOkOetcDzf6JpjWB19UeMJRbCrQOKshP8QHJMLwF5shRMfDauCCsE1U59HcF8tgAoT6dq9bw9E9HaSEx1Em5jf1hr71DV6FRz9UeM+CL7JrQXopBYx3iOxXIA9Fxr+fPpEy4nOKuhwT7EOin+KvhXgUxDZ1Gc77R55ZDxrAYxM3ntZaz1Q64EKM0DP+4GAmlFeBjC1QqyqupMUETvqbKePEbitquxDROYc7VCL6AdJ3j9EmFWGkRNs3to8rrF7zCL5jw0hKBDY6d21abTKY6YPXa0Haj1QYQayQ2jmZr1pdB1PxlpjPRXiVcd9F1Rfe3BWPRWr8EEThsjptN1lpFakzlRHhTuW7FmpIJZdfAXf0m/qfxUuF0TshclwYoc76Op4aWZwDqHsr51KVCfffVn+h+dCEeM3ElNysdphK5QwRyq75fD2OVr0R4w4iGBWPuxXK711LEdEJTZaVF9F4ZsOhoicc6bRj0ksyoMesEKxByshGG5fzdT3E5yTD2C/M40uAJibOgXp7lF209GliZPDLcQNvscMzlTBIwSzC7AAq+hc8LGj7njhiF0ge5Ot8cdAp/3aeaZvn944vnPSQZB35cTnr5icHz5Tb1HAbQW5ItiSDMWWXytBOPd4PbbsJdk7vEW2WeH4s8XttGbq+wjOKwYBfN5JLP2pNfbHSPZDIBK4V6hGAXhKtLV3Es2OtmIAge2BCXaXGidwS4nhRUK+EEGbKEyVXnRnu9Hu+WEo9k4eM+inSPaE3HkU4fUgfQQfBTGrNIHOzJOhzE6FEt877y/7oMnfAu4k+VA5WXfAkmfjUyspNdBMfTfBx8vhG7DUoAjgFGBEg08SXA+nQmWQR6m3b0o8k/h9MLt+2wX0Rw1nCz9gUUn2HgB4q6P779cGLPa4jGQd6rxTjbmqYImIePuW20iHCN9tC8fWuBKfd/JF9BcV4pWBym1EzewpLfAo5fsXuU4Ql6N58v0AAAAASUVORK5CYII="
+                     class="icon">
+                <ul class="list">
+                    <li>请使用 微信 扫一扫</li>
+                    <li>扫描二维码完成支付</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+</div>
+<script type="text/javascript">
+    var isMobile = ${isMobile};
+    var code_url = '${code_url}';
+    var isQpay = code_url.indexOf('https://qpay.qq.com') > -1;
+    if(isMobile && isQpay){
+        var	qq_call_url =
+                'mqqapi://forward/url?src_type=web&style=default&=1&version=1&url_prefix='+window.btoa(code_url);
+        var isSafari = navigator.userAgent.indexOf("Safari") > -1;
+	    if(isSafari){
+		    location.href = qq_call_url;
+	    }else{
+		    var iframe = document.createElement("iframe");
+            iframe.style.display = "none";
+            iframe.src = qq_call_url;
+            document.body.appendChild(iframe);
+	    }
+    }
+    if(typeof XMLHttpRequest != "undefined"){
+        window.onload = function(){
+            var domain = document.domain;
+            var url = window.location.href;
+            var orderId = url.substring(url.indexOf('=') + 1, url.indexOf('&'));
+            var done = function(){
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState == 4){
+                        if(xhr.status == 200){
+                            var result = JSON.parse(xhr.responseText);
+                            if(result.code === '0000') {
+                                if(result.data.isSuccess) {
+                                    window.location.href = '${successUrl}?orderId=' + orderId;
+                                }
+                            }
+                        }
+                    }
+                };
+               xhr.open('GET', 'http://' + domain + '/pay/' + orderId + '/status', true);
+               xhr.send(null);
+            }
+            setInterval(done, 1000);
+        }
+    }
+</script>
+</body>
+</html>

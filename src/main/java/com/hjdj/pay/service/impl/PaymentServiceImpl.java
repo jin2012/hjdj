@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -26,6 +27,11 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public boolean isRedisExist(String p2_order) {
         return redisTemplate.hasKey(p2_order);
+    }
+
+    @Override
+    public void deleteOrderRedis(String order) {
+        redisTemplate.delete(order);
     }
 
 

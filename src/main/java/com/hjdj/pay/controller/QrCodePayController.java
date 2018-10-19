@@ -1,18 +1,27 @@
 package com.hjdj.pay.controller;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.hjdj.pay.beans.Order;
+import com.hjdj.pay.config.PaymentConfig;
 import com.hjdj.pay.service.PaymentService;
-import com.hjdj.pay.utls.DigestUtil;
+import com.hjdj.pay.utls.DateUtil;
+import com.hjdj.pay.utls.QrCodeUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Map;
 
 @Controller
-public class TestController {
+public class QrCodePayController {
 
     // 返回结果
     private String result;
@@ -24,10 +33,19 @@ public class TestController {
     private String secret;
 
     @Autowired
+    private PaymentConfig paymentConfig;
+
+    @Autowired
     private PaymentService paymentService;
 
-    @RequestMapping("/paytest")
-    public String payTest(HttpServletRequest request, HttpServletResponse response){
+    /**
+     * 获取商户订单数据并保存
+     * @param request
+     * @param response
+     * @return 返回一个二维码 请求支付的连接
+     */
+    @RequestMapping("/qrpay")
+    public String qrCodePay(Map map, HttpServletRequest request, HttpServletResponse response) {
         // 商户接收支付成功数据的地址
         String P8_Url = request.getParameter("p8_Url");
         if (P8_Url == null || "".equals(P8_Url)) {
@@ -35,7 +53,7 @@ public class TestController {
         }
         // 业务类型
         String P0_cmd = request.getParameter("p0_Cmd");
-        if ( !"Buy".equals(P0_cmd)) {
+        if (!"Buy".equals(P0_cmd)) {
             result = "P0_CmdError";
             return "redirect:" + P8_Url + "?result=" + result;
         }
@@ -59,11 +77,10 @@ public class TestController {
         }
         // 交易币种
         String P4_Cur = request.getParameter("p4_Cur");
-        if ( !"CNY".equals(P4_Cur)) {
+        if (!"CNY".equals(P4_Cur)) {
             result = "P4_CurError";
             return "redirect:" + P8_Url + "?result=" + result;
         }
-
         // 商品名称
         String P5_Pid = request.getParameter("p5_Pid");
         // 商品种类
@@ -89,31 +106,16 @@ public class TestController {
         }
         // 应答机制
         String Pr_NeedResponse = request.getParameter("pr_NeedResponse");
-        if ( !"1".equals(Pr_NeedResponse)) {
+        if (!"1".equals(Pr_NeedResponse)) {
             result = "Pr_NeedResponseError";
             return "redirect:" + P8_Url + "?result=" + result;
         }
-
-        StringBuffer sValue = new StringBuffer();
-        sValue.append(P0_cmd);
-        sValue.append(P1_MerId);
-        sValue.append(P2_Order);
-        sValue.append(P3_Amt);
-        sValue.append(P4_Cur);
-        sValue.append(P5_Pid);
-        sValue.append(P6_Pcat);
-        sValue.append(P7_Pdesc);
-        sValue.append(P8_Url);
-        sValue.append(P9_SAF);
-        sValue.append(Pa_MP);
-        sValue.append(Pd_FrpId);
-        sValue.append(Pr_NeedResponse);
-
-        String keyValue = "48i43KP7qErW8x8j6ECk1n4PAxUUlyyQ";
-        String Hmac = null;
-        Hmac = DigestUtil.hmacSign(sValue.toString(), keyValue);
-
-        System.out.println(Hmac);
+        // 签名数据
+        String Hmac = request.getParameter("hmac");
+        if (Hmac == null || "".equals(Hmac)) {
+            result = "HmacError";
+            return "redirect:" + P8_Url + "?result=" + result;
+        }
         // 创建订单
         Order order = new Order();
         order.setP0_Cmd(P0_cmd);
@@ -132,7 +134,6 @@ public class TestController {
         order.setHmac(Hmac);
         // 后台使用，订单状态
         order.setState("0");
-
         // 将订单数据存储到redis
         if (order == null || "".equals(order.getP2_Order())) {
             result = "OrderError";
@@ -140,18 +141,56 @@ public class TestController {
         }
         paymentService.saveOrderRedis(order);
 
-        // 获取code路径
+        // String order = "123421331";
+        String time = DateUtil.timeStamp();
+
+        String url = "http://topay.feigela.com/code?order=" + order.getP2_Order() + "&time=" + time;
+        // String url = "http://w1.zhexi.tech:44126/wxqrcode?order="+ order+ "&time=" + time;
+
+        try {
+            String base64Str =
+                    QrCodeUtil.encode(
+                            url, BarcodeFormat.QR_CODE, 3,
+                            ErrorCorrectionLevel.H, 400, 400);
+            response.getWriter().write(
+                    StringUtils.replace(
+                            paymentConfig.getQrcodeHtmlTemplate(),
+                            "${qrcode}",
+                            base64Str));
+            System.out.println("code");
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @RequestMapping("/wxqrcode")
+    public String qrCode(@RequestParam("order") String order, @RequestParam("time") String time) {
+        int timeNow = Integer.parseInt(DateUtil.timeStamp());
+        //接收order参数和唯一身份参数
+        if(order == null || "".equals(order)){
+            return "redirect:error/ordertiomeout.html";
+        }
+        if(time != null || !"".equals(time)){
+            int timeOld = Integer.parseInt(time);
+            int sum = timeNow - timeOld;
+            if(sum > 120){
+                paymentService.deleteOrderRedis(order);
+                return "redirect:error/qrerror.html";
+            }
+        }
+        //获取订单数据
+        //拼接code获取连接
         String codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize" +
-        //        "?appid=wx21d7f581d2d3d51e" +
-        //        "?appid=wx37cb4b56015f452f" +
                 "?appid=" + appid +
                 "&redirect_uri=http://topay.feigela.com/payment-pay/code" +
                 "&response_type=code" +
                 "&scope=snsapi_base" +
-                "&state=" + order.getP2_Order() +
+                "&state=" + order +
                 "#wechat_redirect";
-
+        System.out.println(codeUrl);
         return "redirect:" + codeUrl;
     }
-
 }
