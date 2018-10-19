@@ -38,113 +38,104 @@ public class QrCodePayController {
     @Autowired
     private PaymentService paymentService;
 
-    /**
-     * 获取商户订单数据并保存
-     * @param request
-     * @param response
-     * @return 返回一个二维码 请求支付的连接
-     */
     @RequestMapping("/qrpay")
-    public String qrCodePay(Map map, HttpServletRequest request, HttpServletResponse response) {
+    public String qrCodePay(@RequestParam("p0_Cmd") String p0_Cmd,
+                            @RequestParam("p1_MerId") String p1_MerId,
+                            @RequestParam("p2_Order") String p2_Order,
+                            @RequestParam("p3_Amt") String p3_Amt,
+                            @RequestParam("p4_Cur") String p4_Cur,
+                            @RequestParam("p5_Pid") String p5_Pid,
+                            @RequestParam("p6_Pcat") String p6_Pcat,
+                            @RequestParam("p7_Pdesc") String p7_Pdesc,
+                            @RequestParam("p8_Url") String p8_Url,
+                            @RequestParam("p9_SAF") String p9_SAF,
+                            @RequestParam("pa_MP") String pa_MP,
+                            @RequestParam("pd_FrpId") String pd_FrpId,
+                            @RequestParam("pr_NeedResponse") String  pr_NeedResponse,
+                            @RequestParam("hmac") String hmac,
+                            HttpServletResponse response) {
         // 商户接收支付成功数据的地址
-        String P8_Url = request.getParameter("p8_Url");
-        if (P8_Url == null || "".equals(P8_Url)) {
+        if (p8_Url == null || "".equals(p8_Url)) {
             return "";
         }
         // 业务类型
-        String P0_cmd = request.getParameter("p0_Cmd");
-        if (!"Buy".equals(P0_cmd)) {
+        if (!"Buy".equals(p0_Cmd)) {
             result = "P0_CmdError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         // 商户ID
-        String P1_MerId = request.getParameter("p1_MerId");
-        if (P1_MerId == null || "".equals(P1_MerId)) {
+        if (p1_MerId == null || "".equals(p1_MerId)) {
             result = "P1_MerIdError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         // 商户订单号
-        String P2_Order = request.getParameter("p2_Order");
-        if (P2_Order == null || "".equals(P2_Order)) {
+        if (p2_Order == null || "".equals(p2_Order)) {
             result = "P2_OrderError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         // 支付金额
-        String P3_Amt = request.getParameter("p3_Amt");
-        if (P3_Amt == null || "".equals(P3_Amt)) {
+        if (p3_Amt == null || "".equals(p3_Amt)) {
             result = "P3_AmtError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         // 交易币种
-        String P4_Cur = request.getParameter("p4_Cur");
-        if (!"CNY".equals(P4_Cur)) {
+        if (!"CNY".equals(p4_Cur)) {
             result = "P4_CurError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
-        // 商品名称
-        String P5_Pid = request.getParameter("p5_Pid");
-        // 商品种类
-        String P6_Pcat = request.getParameter("p6_Pcat");
-        // 商品描述
-        String P7_Pdesc = request.getParameter("p7_Pdesc");
         // 送货地址
-        String P9_SAF = request.getParameter("p9_SAF");
-        if (P9_SAF == null || "".equals(P9_SAF)) {
+        if (p9_SAF == null || "".equals(p9_SAF)) {
             result = "P9_SAFError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         // 商户扩展信息
-        String Pa_MP = request.getParameter("pa_MP");
-        if (Pa_MP == null || "".equals(Pa_MP)) {
-            Pa_MP = "0";
+        if (pa_MP == null || "".equals(pa_MP)) {
+            pa_MP = "0";
         }
         // 支付通道编码
-        String Pd_FrpId = request.getParameter("pd_FrpId");
-        if (Pd_FrpId == null || "".equals(Pd_FrpId)) {
+        if (pd_FrpId == null || "".equals(pd_FrpId)) {
             result = "Pd_FrpIdError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         // 应答机制
-        String Pr_NeedResponse = request.getParameter("pr_NeedResponse");
-        if (!"1".equals(Pr_NeedResponse)) {
+        if (!"1".equals(pr_NeedResponse)) {
             result = "Pr_NeedResponseError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         // 签名数据
-        String Hmac = request.getParameter("hmac");
-        if (Hmac == null || "".equals(Hmac)) {
+        if (hmac == null || "".equals(hmac)) {
             result = "HmacError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         // 创建订单
         Order order = new Order();
-        order.setP0_Cmd(P0_cmd);
-        order.setP1_MerId(P1_MerId);
-        order.setP2_Order(P2_Order);
-        order.setP3_Amt(P3_Amt);
-        order.setP4_Cur(P4_Cur);
-        order.setP5_Pid(P5_Pid);
-        order.setP6_Pcat(P6_Pcat);
-        order.setP7_Pdesc(P7_Pdesc);
-        order.setP8_Url(P8_Url);
-        order.setP9_SAF(P9_SAF);
-        order.setPa_MP(Pa_MP);
-        order.setPd_FrpId(Pd_FrpId);
-        order.setPr_NeedResponse(Pr_NeedResponse);
-        order.setHmac(Hmac);
+        order.setP0_Cmd(p0_Cmd);
+        order.setP1_MerId(p1_MerId);
+        order.setP2_Order(p2_Order);
+        order.setP3_Amt(p3_Amt);
+        order.setP4_Cur(p4_Cur);
+        order.setP5_Pid(p5_Pid);
+        order.setP6_Pcat(p6_Pcat);
+        order.setP7_Pdesc(p7_Pdesc);
+        order.setP8_Url(p8_Url);
+        order.setP9_SAF(p9_SAF);
+        order.setPa_MP(pa_MP);
+        order.setPd_FrpId(pd_FrpId);
+        order.setPr_NeedResponse(pr_NeedResponse);
+        order.setHmac(hmac);
         // 后台使用，订单状态
         order.setState("0");
         // 将订单数据存储到redis
         if (order == null || "".equals(order.getP2_Order())) {
             result = "OrderError";
-            return "redirect:" + P8_Url + "?result=" + result;
+            return "redirect:" + p8_Url + "?result=" + result;
         }
         paymentService.saveOrderRedis(order);
 
         // String order = "123421331";
         String time = DateUtil.timeStamp();
 
-        String url = "http://topay.feigela.com/code?order=" + order.getP2_Order() + "&time=" + time;
+        String url = "http://topay.feigela.com/wxqrcode?order=" + order.getP2_Order() + "&time=" + time;
         // String url = "http://w1.zhexi.tech:44126/wxqrcode?order="+ order+ "&time=" + time;
 
         try {
